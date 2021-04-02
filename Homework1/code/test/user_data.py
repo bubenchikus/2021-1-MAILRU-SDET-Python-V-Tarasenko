@@ -9,19 +9,18 @@ login = {'default': ['zapuskayte-gusya@yandex.ru', 'gus-password'],  # корр�
          'mail-format-3': ['@emptyname', 'password'],
          'mail-char-1': ["!#$%&'*+-/=?^_`{|}~@mail.com", 'pasword'],
          'mail-char-2': ["(),:;<>@[]@mail.com", 'pasword'],
-         'mail-numeric-1': ['7-901-666-66-66', 'password'],
-         'mail-numeric-2': ['+79016666666', 'password'],
-         'mail-numeric-3': ['7-(901)-666-66-66', 'password'],
-         'mail-numeric-4': ['7(901)6666666', 'password'],
-         'mail-numeric-5': ['7-901-666-66-66-66-66', 'password'],
-         'mail-numeric-6': ['12345678900', 'password'],
-         'mail-numeric-7': ['0000', 'password']
+         'mail-phone-1': ['666-66-66', 'password'],
+         'mail-phone-2': ['(666)6666666', 'password'],
+         'mail-phone-3': ['86666666666', 'password'],
+         'mail-phone-4': ['+76666666666', 'password'],
+         'mail-long': ['6'*1000, 'password']
          }
 
 
 # fio, phone, password
-change = {'default': ['Example Example Example', '+7-900-00-00', 'zapuskayte-gusya1@yandex.ru'],
+change = {'default': ['Example Example Example', '+7-666-66-66', 'zapuskayte-gusya@yandex.ru'],
           'all-empty': ['', '', ''],
-          'wrong-phone': ['example', '0000', 'zapuskayte-gusya1@yandex.ru'],
-          'wrong-mail': ['example', '+7-900-00-00', 'zapuskayte-gusya']
+          'weird-symbols': ["!#$%&'*+-/=?^_`{|}~(),:;<>@[]", "!#$%&'*+-/=?^_`{|}~(),:;<>@[]",
+                            "!#$%&'*+-/=?^_`{|}~(),:;<>@[]"],
+          'long': ['a'*1000, '6'*1000, 'a'*1000]
           }

@@ -12,11 +12,13 @@ def config(request):
     return {'url': url}
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def driver(config):
+    browser = webdriver.Chrome()
+    browser.maximize_window()
+
     url = config['url']
-    browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver')
     browser.get(url)
-    browser.set_window_size(1400, 1000)
+
     yield browser
-    browser.close()
+    browser.quit()
