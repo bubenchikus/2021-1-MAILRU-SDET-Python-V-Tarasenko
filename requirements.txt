@@ -1,5 +1,9 @@
+python 3
 pytest
 pytest-xdist
 selenium
 urllib3
 ui
+allure-pytest
+webdriver-manager
+requests
