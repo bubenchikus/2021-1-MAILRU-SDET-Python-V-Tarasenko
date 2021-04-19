@@ -7,3 +7,5 @@ ui
 allure-pytest
 webdriver-manager
 requests
+faker
+
