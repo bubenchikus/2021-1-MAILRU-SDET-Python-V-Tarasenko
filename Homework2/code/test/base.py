@@ -1,10 +1,10 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
 
-from CODE.UI.pages.base_page import BasePage
-from CODE.UI.pages.main_page import MainPage
-from CODE.UI.pages.new_campaign_page import NewCampaignPage
-from CODE.UI.pages.segments_page import SegmentsPage
+from ui.pages.base_page import BasePage
+from ui.pages.main_page import MainPage
+from ui.pages.new_campaign_page import NewCampaignPage
+from ui.pages.segments_page import SegmentsPage
 
 
 class BaseCase:
@@ -28,11 +28,19 @@ class BaseCase:
         yield MainPage
 
     @pytest.fixture(scope='function')
-    def open_campaign_page(self, login_default):
-        self.main_page.go_to_campaign_page()
+    def create_segment(self, login_default):
+        self.segments_page.create_segment('MySegment')
 
     @pytest.fixture(scope='function')
-    def create_segment(self, login_default):
-        self.main_page.go_to_segments_page()
-        self.segments_page.create_segment()
+    def create_and_delete_segments(self, create_segment):
+        yield
+        self.segments_page.delete_segments()
 
+    @pytest.fixture(scope='function')
+    def open_campaign_page(self, login_default):
+        self.main_page.go_to_new_campaign_page()
+
+    @pytest.fixture(scope='function')
+    def open_and_delete_campaigns(self, open_campaign_page):
+        yield
+        self.main_page.delete_campaigns()

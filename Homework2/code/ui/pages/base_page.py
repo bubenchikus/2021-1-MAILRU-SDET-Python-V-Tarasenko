@@ -1,18 +1,14 @@
 import logging
-import pytest
-import os
-import time
-
 import allure
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from CODE.UI.locators.page_locators import BasePageLocators
-from CODE.UTILS.decorators import wait
+from ui.locators.page_locators import BasePageLocators
+from utils.decorators import wait
 
-from CODE.UI import user_data as UD
+from ui import user_data as UD
 
 CLICK_RETRY = 3
 BASE_TIMEOUT = 30
@@ -56,8 +52,6 @@ class BasePage(object):
     def action_chains(self):
         return ActionChains(self.driver)
 
-
-
     def scroll_to(self, element):
         self.driver.execute_script('arguments[0].scrollIntoView(true);', element)
 
@@ -75,21 +69,15 @@ class BasePage(object):
                 if i == CLICK_RETRY - 1:
                     raise
 
-    # def multiple_clicks(self, locator, numberofclicks):
-    #     for i in range(numberofclicks):
-    #         self.click(locator)
-
-    # def move_cursor(self, locator):
-    #     self.driver.actions().scroll_to(locator).mouseMove(locator).perform()
-
     @allure.step('filling {locator}')
-    def fill_field(self, locator, data, timeout=None):
+    def fill_field(self, locator, data):
         current_field = self.find(locator)
         self.scroll_to(current_field)
         current_field.clear()
         current_field.send_keys(data)
 
-    def upload(self, locator, data, timeout=None):
+    @allure.step('uploading user data')
+    def upload(self, locator, data):
         current_field = self.find(locator)
         self.scroll_to(current_field)
         current_field.send_keys(data)
@@ -102,6 +90,3 @@ class BasePage(object):
         self.fill_field(self.locators.LOGIN_MAIL_LOCATOR, UD.login[user_code][0])
         self.fill_field(self.locators.LOGIN_PASSWORD_LOCATOR, UD.login[user_code][1])
         self.click(self.locators.LOGIN_SUBMIT_LOCATOR)
-
-
-

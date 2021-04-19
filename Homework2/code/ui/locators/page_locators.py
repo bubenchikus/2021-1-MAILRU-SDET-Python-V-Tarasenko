@@ -8,49 +8,47 @@ class BasePageLocators:
     LOGIN_SUBMIT_LOCATOR = (By.XPATH, "//*[(text()='Войти') and contains(@class, 'authForm')]")
 
 
-class MainPageLocators:
+class MainPageLocators(BasePageLocators):
 
     LOGOUT_START_LOCATOR = (By.XPATH, "//*[contains(@class, 'right-module-mail')]")
     LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//*[contains(text(), 'Выйти')]")
 
     DASHBOARD_CONTENT = (By.XPATH, "//*[contains(@class, 'instruction-module-container')]")
     DASHBOARD_CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//*[(text()='Создайте рекламную кампанию')]")
-    DASHBOARD_CREATE_CAMPAIGN_ALTERNATIVE_LOCATOR = (By.XPATH, "//*[contains(@class,'button-module-blue')]")
+    DASHBOARD_ALTERNATIVE_CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//*[(text()='Создать кампанию'))]")
 
     HEAD_SEGMENTS_LOCATOR = (By.XPATH, "//*[contains(@class, 'segments')]")
-    # HEAD_BILLING_LOCATOR = (By.XPATH, "//*[contains(@class, 'billing')]")
 
+    CAMPAIGN_CHOOSE_ALL_LOCATOR = (By.XPATH, "//input[contains(@class,'name-module')]")
+    CAMPAIGN_ACTION_LOCATOR = (By.XPATH, "//*[contains(@class,'massActionsSelect')]")
+    CAMPAIGN_DELETE_LOCATOR = (By.XPATH, "//*[(text()='Удалить')]")
     CAMPAIGN_SEARCH_LOCATOR = (By.XPATH, "//*[(@placeholder='Поиск...')]")
     CAMPAIGN_OPTION_LIST_LOCATOR = (By.XPATH, "//*[contains(@class,'optionsList-module-item')]")
+    CAMPAIGN_TABLE_FRAGMENT_LOCATOR = (By.XPATH, "//*[(text()='Название')]")
+    CAMPAIGN_SHOW_LOCATOR = (By.XPATH, "//*[contains(@class, 'select-module-item-')]")
 
 
-class NewCampaignPageLocators:
+class NewCampaignPageLocators(MainPageLocators):
 
     GOAL_TRAFFIC_LOCATOR = (By.XPATH, "//*[contains(@class, 'traffic')]")
     URL_LOCATOR = (By.XPATH, "//*[(@placeholder='Введите ссылку')]")
     FOOTER_LOCATOR = (By.XPATH, "//*[(@class='footer')]")
-    MAPBOX = (By.XPATH,"//*[(@href='https://www.mapbox.com/')]")
+    MAPBOX = (By.XPATH, "//*[(@href='https://www.mapbox.com/')]")
     NAME_LOCATOR = (By.XPATH, "//*[contains(@class, 'input_campaign-name')]//input")
 
     EXPAND_WHO_SEX_LOCATOR = (By.XPATH, "//*[(@data-targeting='sex')]")
-    # WHO_SEX_HINT_LOCATOR = (By.XPATH, "//*[(text()='Мужчины, Женщины')]//following-sibling::span//*")
-    # WHO_SEX_HINT_TEXT_LOCATOR = (By.XPATH, "//*[contains(text(), 'Выберите, кому показывать объявления')]")
     WHO_SEX_CHECKBOX_M_LOCATOR = (By.XPATH, "//*[(@targeting='sex-male')]//following-sibling::label")
     WHO_SEX_CHECKBOX_F_LOCATOR = (By.XPATH, "//*[(@targeting='sex-female')]//following-sibling::label")
 
     EXPAND_WHO_AGE_LOCATOR = (By.XPATH, "//*[(@data-targeting='age')]")
-    # WHO_AGE_HINT_LOCATOR = (By.XPATH, "//*[contains(text(),'до')]//following-sibling::span//*")
-    # WHO_AGE_HINT_TEXT_LOCATOR = (By.XPATH, "//*[contains(text(), 'Выберите возраст посетителей')]")
     WHO_AGE_CHECKBOX_LOCATOR = (By.XPATH, "//*[contains(text(), 'Охватить')]//preceding-sibling::*")
     WHO_AGE_SELECT_LOCATOR = (By.XPATH, "//*[(@class='select')]")
-    # WHO_AGE_SELECT_ALL_LOCATOR = (By.XPATH, "//*[(@data-id='all')]")
-    # WHO_AGE_SELECT_SELECTED_LOCATOR = (By.XPATH, "//*[(@data-id='selected')]")
+    WHO_AGE_SELECT_ALL_LOCATOR = (By.XPATH, "//*[(@data-id='all')]")
+    WHO_AGE_SELECT_SELECTED_LOCATOR = (By.XPATH, "//*[(@data-id='selected')]")
     WHO_AGE_SELECT_UNKNOWN_LOCATOR = (By.XPATH, "//*[(@data-id='unknown')]")
     # WHO_AGE_SELECT_CUSTOM_LOCATOR = (By.XPATH, "//*[(@data-id='custom')]")
 
     EXPAND_WHO_GEOGRAPHY_LOCATOR = (By.XPATH, "//*[(@data-targeting='geo')]")
-    # WHO_GEOGRAPHY_HINT_LOCATOR = (By.XPATH, "//*[contains(text(),'География')]//following-sibling::span//*")
-    # WHO_GEOGRAPHY_HINT_TEXT_LOCATOR = (By.XPATH, "//*[contains(text(), 'География трансляции')]")
     WHO_GEOGRAPHY_RADIO_REGION_LOCATOR = (By.XPATH, "//*[(@type='radio') and (@value='region')]")
     WHO_GEOGRAPHY_RADIO_LOCAL_LOCATOR = (By.XPATH, "//*[(@type='radio') and (@value='local')]")
     WHO_GEOGRAPHY_ADD_WITH_FIELD_LOCATOR = (By.XPATH, "//*[contains(@placeholder, 'Добавить или исключить')]")
@@ -98,8 +96,8 @@ class NewCampaignPageLocators:
 
     EXPAND_PRICE_BUDGET_LOCATOR = (By.XPATH, "//*[(@data-targeting='budget_setting')]")
     PRICE_BUDGET_WINDOW_LOCATOR = (By.XPATH, "//*[(@class='budget-setting')]")
-    PRICE_BUDGET_PER_DAY_LOCATOR = (By.XPATH, "//*[contains(@class,'daily')]//*[(@class='input')]")
-    PRICE_BUDGET_TOTAL_LOCATOR = (By.XPATH, "//*[contains(@class,'total')]//*[(@class='input')]")
+    PRICE_BUDGET_PER_DAY_LOCATOR = (By.XPATH, "//input[(@data-test='budget-per_day')]")
+    PRICE_BUDGET_TOTAL_LOCATOR = (By.XPATH, "//input[(@data-test='budget-total')]")
 
     FORMAT_CAROUSEL_LOCATOR = (By.XPATH, "//*[(@id='patterns_26')]")
 
@@ -117,7 +115,6 @@ class NewCampaignPageLocators:
     ADS_COMMON_TITLE_LOCATOR = (By.XPATH, "//*[(@placeholder='Введите заголовок объявления')]")
     ADS_COMMON_TEXT_LOCATOR = (By.XPATH, "//*[(@placeholder='Введите текст объявления')]")
 
-
     ADS_UNIVERSAL_SAVE_BUTTON = (By.XPATH, "//*[(@value='Сохранить изображение')]")
     ADS_SAVE_LOCATOR = (By.XPATH, "//*[(@data-test='submit_banner_button')]")
 
@@ -126,25 +123,26 @@ class NewCampaignPageLocators:
     SAVE_CAMPAIGN_LOCATOR = (By.XPATH, "//*[(text()='Создать кампанию')]//parent::button")
 
 
+class SegmentsPageLocators(MainPageLocators):
 
-    # BOTTOM_PRICE_SLIDER_LOCATOR = (By.XPATH, "//*[contains(@class, 'slider-line')]")
-
-class SegmentsPageLocators:
-
-    SEGMENTS_CREATE_LOCATOR = (By.XPATH, "//*[(text()='Создать сегмент')]")
-    SEGMENTS_CREATE_APPS_LOCATOR = (By.XPATH, "//*[(text()='Приложения и игры в соцсетях') and contains(@class, 'adding')]")
+    SEGMENTS_CREATE_LOCATOR = (By.XPATH, "//*[(text()='Создайте')]")
+    SEGMENTS_ALTERNATIVE_CREATE_LOCATOR = (By.XPATH, "//*[(text()='Создать сегмент')]")
+    SEGMENTS_CREATE_APPS_LOCATOR = (By.XPATH, "//*[(text()='Приложения и игры в соцсетях') and "
+                                              "contains(@class, 'adding')]")
     SEGMENTS_CREATE_GAMERS_LOCATOR = (By.XPATH, "//*[(text()='Игравшие и платившие в платформе')]")
     SEGMENTS_CREATE_GAMERS_CHOOSE_LOCATOR = (By.XPATH, "//*[(text()='Игравшие в платформе')]")
     SEGMENTS_CREATE_ADD_LOCATOR = (By.XPATH, "//*[(text()='Добавить сегмент')]//parent::button")
     SEGMENTS_CREATE_NAME_LOCATOR = (By.XPATH, "//*[contains(@class, 'input_create')]//input[(@type='text')]")
     SEGMENTS_CREATE_SUBMIT_LOCATOR = (By.XPATH, "//*[(@data-class-name='Submit')]")
 
+    SEGMENTS_TABLE_FRAGMENT_LOCATOR = (By.XPATH, "//*[(text()='Имя сегмента')]")
     SEGMENTS_ACTION_LOCATOR = (By.XPATH, "//*[contains(@class,'massAction')]")
     SEGMENTS_CHOOSE_ALL_LOCATOR = (By.XPATH, "//*[contains(@class,'Header')]//*[contains(@class, 'idCellCheckbox')]")
     SEGMENTS_DELETE_LOCATOR = (By.XPATH, "//*[(text()='Удалить')]")
     SEGMENTS_SEARCH_LOCATOR = (By.XPATH, "//*[(@placeholder='Поиск по названию или id...')]")
+    SEGMENTS_SEARCH_BLOCK_LOCATOR = (By.XPATH, "//*[contains(@class,'optionsList-module-optionsList')]")
     SEGMENTS_OPTION_LIST_LOCATOR = (By.XPATH, "//*[contains(@class, 'optionsList-module-option-'))]")
+
 
 FLAG_SEGMENTS_LOCATOR = (By.XPATH, "//*[contains(text(), 'Аудиторные сегменты')]")
 FLAG_BILLING_LOCATOR = (By.XPATH, "//*[@data-type='deposit']")
-

@@ -2,7 +2,7 @@ import logging
 import sys
 import shutil
 
-from CODE.UI.fixtures import *
+from ui.fixtures import *
 
 
 def pytest_addoption(parser):
@@ -17,11 +17,6 @@ def config(request):
     browser = request.config.getoption('--browser')
     debug_log = request.config.getoption('--debug_log')
     return {'url': url, 'browser': browser, 'debug_log': debug_log}
-
-
-@pytest.fixture(scope='session')
-def repo_root():
-    return os.path.abspath(os.path.join(__file__, os.pardir))
 
 
 def pytest_configure(config):

@@ -1,13 +1,12 @@
 import os
-
 import allure
 import pytest
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
-from CODE.UI.pages.base_page import BasePage
-from CODE.UI.pages.main_page import MainPage
-from CODE.UI.pages.new_campaign_page import NewCampaignPage
-from CODE.UI.pages.segments_page import SegmentsPage
+from ui.pages.base_page import BasePage
+from ui.pages.main_page import MainPage
+from ui.pages.new_campaign_page import NewCampaignPage
+from ui.pages.segments_page import SegmentsPage
 
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
@@ -30,6 +29,7 @@ def main_page(driver):
 @pytest.fixture
 def new_campaign_page(driver):
     return NewCampaignPage(driver=driver)
+
 
 @pytest.fixture
 def segments_page(driver):
