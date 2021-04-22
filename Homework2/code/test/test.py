@@ -7,7 +7,7 @@ from base import BaseCase
 class TestLoginWindow(BaseCase):
 
     def test_login_positive(self, login_default):
-        assert self.driver.current_url == 'https://target.my.com/dashboard'
+        assert self.base_page.find(self.main_page.locators.HEAD_SEGMENTS_LOCATOR)
 
     @pytest.mark.parametrize('uid', ['invalid-password', 'mail-several'])
     def test_login_negative(self, uid):

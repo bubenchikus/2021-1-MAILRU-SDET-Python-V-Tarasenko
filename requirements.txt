@@ -6,4 +6,3 @@ urllib3
 ui
 allure-pytest
 webdriver-manager
-requests
