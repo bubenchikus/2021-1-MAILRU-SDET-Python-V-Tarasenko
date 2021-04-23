@@ -12,7 +12,7 @@ class TestLoginWindow(BaseCase):
     @pytest.mark.parametrize('uid', ['invalid-password', 'mail-several'])
     def test_login_negative(self, uid):
         self.base_page.login_fill(uid)
-        assert 'Invalid login or password' in self.driver.page_source
+        assert self.base_page.find(self.base_page.locators.LOGIN_ERROR_LOCATOR)
 
 
 @pytest.mark.UI
