@@ -6,6 +6,7 @@ class BasePageLocators:
     LOGIN_MAIL_LOCATOR = (By.NAME, 'email')
     LOGIN_PASSWORD_LOCATOR = (By.NAME, 'password')
     LOGIN_SUBMIT_LOCATOR = (By.XPATH, "//*[(text()='Войти') and contains(@class, 'authForm')]")
+    LOGIN_ERROR_LOCATOR = (By.XPATH, "//*[(text()='Error')]")
 
 
 class MainPageLocators(BasePageLocators):
