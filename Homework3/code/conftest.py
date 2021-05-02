@@ -1,32 +1,51 @@
 import logging
-import sys
 import shutil
-
+import sys
+import pytest
+import os
+import allure
 from api.client import ApiClient
-from ui.fixtures import *
-from ui.user_data import login
 
 
 def pytest_addoption(parser):
     parser.addoption('--url', default='https://target.my.com/')
-    parser.addoption('--browser', default='chrome')
+    parser.addoption('--selenoid', action='store_true')
+    parser.addoption('--vnc', action='store_true')
     parser.addoption('--debug_log', action='store_true')
 
 
 @pytest.fixture(scope='session')
 def credentials():
-    user = login['default'][0]
-    password = login['default'][1]
-
+    user = 'zapuskayte-gusya@yandex.ru'
+    password = 'gus-password'
     return user, password
+
+
+@pytest.fixture(scope='function')
+def api_client(config):
+    return ApiClient(config['url'])
 
 
 @pytest.fixture(scope='session')
 def config(request):
     url = request.config.getoption('--url')
-    browser = request.config.getoption('--browser')
+    if request.config.getoption('--selenoid'):
+        selenoid = 'http://127.0.0.1:4444'
+        if request.config.getoption('--vnc'):
+            vnc = True
+        else:
+            vnc = False
+    else:
+        selenoid = None
+        vnc = False
+
     debug_log = request.config.getoption('--debug_log')
-    return {'url': url, 'browser': browser, 'debug_log': debug_log}
+    return {'url': url, 'debug_log': debug_log, 'selenoid': selenoid, 'vnc': vnc}
+
+
+@pytest.fixture(scope='session')
+def repo_root():
+    return os.path.abspath(os.path.join(__file__, os.pardir))
 
 
 def pytest_configure(config):
@@ -40,7 +59,6 @@ def pytest_configure(config):
             shutil.rmtree(base_test_dir)
         os.makedirs(base_test_dir)
 
-    # save to config for all workers
     config.base_test_dir = base_test_dir
 
 
@@ -55,7 +73,7 @@ def test_dir(request):
 @pytest.fixture(scope='function', autouse=True)
 def logger(test_dir, config):
     log_formatter = logging.Formatter('%(asctime)s - %(filename)-15s - %(levelname)-6s - %(message)s')
-    log_file = os.path.join(test_dir, 'TEST.log')
+    log_file = os.path.join(test_dir, 'test.log')
 
     log_level = logging.DEBUG if config['debug_log'] else logging.INFO
 
@@ -63,7 +81,7 @@ def logger(test_dir, config):
     file_handler.setFormatter(log_formatter)
     file_handler.setLevel(log_level)
 
-    log = logging.getLogger('TEST')
+    log = logging.getLogger('test')
     log.propagate = False
     log.setLevel(log_level)
     log.handlers.clear()
@@ -75,9 +93,4 @@ def logger(test_dir, config):
         handler.close()
 
     with open(log_file, 'r') as f:
-        allure.attach(f.read(), 'TEST.log', attachment_type=allure.attachment_type.TEXT)
-
-
-@pytest.fixture(scope='function')
-def api_client(config):
-    return ApiClient(config['url'])
+        allure.attach(f.read(), 'test.log', attachment_type=allure.attachment_type.TEXT)
