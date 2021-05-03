@@ -1,0 +1,39 @@
+
+общее количество запросов:  
+225133
+
+количество GET-запросов: 
+122096
+количество POST-запросов: 
+102544
+количество HEAD-запросов: 
+529
+количество PUT-запросов: 
+18
+
+ТОП- 10 самых частых запросов:
+ 103932 /administrator/index.php
+  26336 /apache-log/access.log
+   6940 /
+   4980 /templates/_system/css/general.css
+   3199 /robots.txt
+   2356 http://almhuette-raith.at/administrator/index.php
+   2201 /favicon.ico
+   1644 /wp-login.php
+   1563 /administrator/
+   1287 /templates/jp_hotel/css/template.css
+
+ТОП-5 самых больших по размеру запросов, которые завершились клиентской (4ХХ) ошибкой:
+189.217.45.73 /index.php?option=com_phocagallery&view=category&id=7806&Itemid=53 404 1417
+189.217.45.73 /index.php?option=com_phocagallery&view=category&id=4025&Itemid=53 404 1417
+189.217.45.73 /index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%289168%3D4696%29%20THEN%209168%20ELSE%209168%2A%28SELECT%209168%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53 404 1417
+189.217.45.73 /index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%281753%3D1753%29%20THEN%201753%20ELSE%201753%2A%28SELECT%201753%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53 404 1417
+95.82.195.206 //index.php?option=com_users&view=registration 404 1397
+
+
+ТОП-5 пользователей по количеству запросов, которые завершились серверной (5ХХ) ошибкой:
+    225 189.217.45.73
+      4 82.193.127.15
+      3 91.210.145.36
+      2 198.38.94.207
+      2 195.133.48.198
