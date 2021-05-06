@@ -12,9 +12,14 @@ class ApiBase:
             self.api_client.post_login(*credentials)
 
     @pytest.fixture(scope='function')
-    def auto_delete_campaign(self):
+    def auto_create_campaign(self):
+        self.api_client.post_create_campaign()
         yield
-        self.api_client.post_delete_campaign()
+
+    # @pytest.fixture(scope='function')
+    # def auto_delete_campaign(self):
+    #     yield
+    #     self.api_client.delete_campaign()
 
     @pytest.fixture(scope='function')
     def auto_create_segment(self):
