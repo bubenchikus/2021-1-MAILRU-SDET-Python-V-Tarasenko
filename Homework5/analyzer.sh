@@ -1,8 +1,10 @@
 > result.txt ; OUT=$(grep -c ' *.*.*.* ' access.log); printf "\nобщее количество запросов:  \n%s\n" "$OUT" >> result.txt;
 
-for PARAM in 'GET' 'POST' 'HEAD' 'PUT' ; do
-  OUT=$(grep -c $PARAM access.log); printf "\nколичество %s-запросов: \n%s" "$PARAM" "$OUT" >> result.txt
-done
+#for PARAM in 'GET' 'POST' 'HEAD' 'PUT' ; do
+#  OUT=$(grep -c $PARAM access.log); printf "\nколичество %s-запросов: \n%s" "$PARAM" "$OUT" >> result.txt
+#done
+
+OUT=$(awk -F ' ' '{print $6}' access.log | cut -c2- | sort | uniq -c |sort -nr); printf "\nколичество запросов по типу: \n%s" "$OUT" >> result.txt
 
 OUT=$(awk -F ' ' '{print $7}' access.log | sort | uniq -c | sort -nr| head -10); printf "\n\nТОП- 10 самых частых запросов:\n%s" "$OUT" >> result.txt
 

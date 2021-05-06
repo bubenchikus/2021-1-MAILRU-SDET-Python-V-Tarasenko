@@ -3,6 +3,8 @@ import pandas as pd
 import logging
 import json
 
+REQUEST_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
+
 base_dir = path.abspath(path.join(__file__, ".."))
 file_path = path.join(base_dir, 'access.log')
 
@@ -35,11 +37,14 @@ def number_of_all_requests(df):
 
 
 def number_of_requests_by_type(df):
-    get = df['method'].value_counts()['GET']
-    post = df['method'].value_counts()['POST']
-    head = df['method'].value_counts()['HEAD']
-    put = df['method'].value_counts()['PUT']
-    return {'GET': get, 'POST': post, 'HEAD': head, 'PUT': put}
+    new_df = df['method'].unique()
+    count_list = {'invalid_method': 0}
+    for i in new_df:
+        if i in REQUEST_METHODS:
+            count_list[i] = df['method'].value_counts()[i]
+        else:
+            count_list['invalid_method'] += 1
+    return count_list
 
 
 def top_10_of_most_frequent_requests(df):
