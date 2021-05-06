@@ -33,3 +33,5 @@ urllib3==1.26.4
 virtualenv==20.4.4
 virtualenv-clone==0.5.4
 webdriver-manager==3.4.0
+
+Faker~=8.1.2
