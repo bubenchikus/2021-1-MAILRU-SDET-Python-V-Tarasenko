@@ -1,7 +1,7 @@
-import base64
 from urllib.parse import urljoin
 import json_lab
 import os
+import allure
 
 import requests
 from requests.cookies import cookiejar_from_dict
@@ -55,6 +55,7 @@ class ApiClient:
 
         return response
 
+    @allure.step('Getting CSRF token')
     def get_csrf_token(self):
         headers = self._request('GET', '/csrf/', jsonify=False).headers['Set-Cookie'].split(';')
         token_header = [h for h in headers if 'csrftoken' in h]
@@ -70,6 +71,7 @@ class ApiClient:
     def post_headers(self):
         return {'X-CSRFToken': self.csrf_token}
 
+    @allure.step('Authorizing')
     def post_login(self, user, password):
 
         location = 'https://auth-ac.my.com/auth?lang=ru&nosavelogin=0'
@@ -103,58 +105,76 @@ class ApiClient:
 
         return result
 
-    def post_picture_get_id(self, path, size):
+    def post_url_get_id(self, url):
 
-        location = f'https://target.my.com/api/v2/content/static.json'
-
+        location = f'https://target.my.com/api/v1/urls/?url={url}'
         cookies = self.session.cookies
+        headers = self.post_headers
+        data = {}
 
-        headers = {'X-CSRFToken': self.csrf_token,
-                   'Referer': 'https://target.my.com/campaign/new',
-                   'Accept-Encoding': 'gzip, deflate, br',
-                   'Sec-Fetch-Dest': 'empty',
-                    'Sec-Fetch-Mode': 'cors',
-                    'Sec-Fetch-Site': 'same-origin',
-                   'X-Requested-With': 'XMLHttpRequest'}
+        result = self._request('GET', location=location, headers=headers, data=data, cookies=cookies)
 
+        url_id = result['id']
+
+        return url_id
+
+    @allure.step('Generating url ids')
+    def get_all_urls_ids(self, slides_num):
+
+        urls_ids = []
+
+        for i in range(slides_num):
+            url = json_lab.generate_url()
+            urls_ids.append(self.post_url_get_id(url))
+        print(urls_ids)
+        return urls_ids
+
+    def post_picture_get_id(self, path):
+
+        location = 'api/v2/content/static.json'
+        cookies = self.session.cookies
+        headers = self.post_headers
         files = {"file": open(path, 'rb')}
-
-        # data = {"data": {"width": size, "height":size}}
         data = {}
 
         result = self._request('POST', location=location, headers=headers, data=data, files=files, cookies=cookies)
-
-        print(result)
 
         img_id = result['id']
 
         return img_id
 
+    @allure.step('Generating pic ids')
     def get_all_pictures_ids(self):
 
         path = os.path.join(os.path.abspath(__file__), '../..', 'files')
         path = os.path.abspath(path)
 
         ids_600 = []
-        ids_256 = []
+        id_256 = None
+        ids_no_crop = []
 
         for file in os.listdir(path):
-            if file.endswith('.jpg') or file.endswith('.png'):
-                path1 = os.path.join(path, file)
-                ids_600.append(self.post_picture_get_id(path1, 600))
-                ids_256.append(self.post_picture_get_id(path1, 256))
+            path1 = os.path.join(path, file)
+            if file.endswith('600.jpg'):
+                ids_600.append(self.post_picture_get_id(path1))
+            elif file.endswith('256.jpg'):
+                id_256 = self.post_picture_get_id(path1)
+            else:
+                ids_no_crop.append(self.post_picture_get_id(path1))
 
-        return [ids_600, ids_256]
+        return ids_600, id_256
 
+    @allure.step('Creating campaign')
     def post_create_campaign(self):
 
         location = '/api/v2/campaigns.json'
         cookies = self.session.cookies
         headers = self.post_headers
-        ids = self.get_all_pictures_ids()
-        data = json_lab.configure_and_return_campaign_json([47188157], ids[0], ids[1])
 
-        print(data)
+        slides_num = 3
+        slides_urls = self.get_all_urls_ids(slides_num + 1)
+        ids_600, id_256 = [self.get_all_pictures_ids()[i] for i in [0, 1]]
+        data = json_lab.configure_and_return_campaign_json(slides_urls, ids_600, id_256)
 
         result = self._request('POST', location=location, data=data, headers=headers, cookies=cookies)
 
@@ -165,6 +185,7 @@ class ApiClient:
 
         return result
 
+    @allure.step('Deleting campaign')
     def delete_campaign(self):
 
         location = f'/api/v2/campaigns/{self.current_campaign_id}.json'
@@ -177,6 +198,7 @@ class ApiClient:
 
         return result
 
+    @allure.step('Creating segment')
     def post_create_segment(self):
 
         location = '/api/v2/remarketing/segments.json'
@@ -194,6 +216,7 @@ class ApiClient:
 
         return result
 
+    @allure.step('Deleting segment')
     def delete_segment(self):
         location = f'/api/v2/remarketing/segments/{self.current_segment_id}.json'
 
@@ -218,6 +241,7 @@ class ApiClient:
 
         return result
 
+    @allure.step('Getting all active campaigns ids')
     def get_campaigns_ids(self):
 
         result = self.get_ids_page('/api/v2/banners/delivery.json?_campaign_status=active')
@@ -229,6 +253,7 @@ class ApiClient:
 
         return ids
 
+    @allure.step('Getting all active segments ids')
     def get_segments_ids(self):
         result = self.get_ids_page('/api/v2/remarketing/segments.json')
 

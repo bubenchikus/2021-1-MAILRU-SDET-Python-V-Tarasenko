@@ -16,26 +16,27 @@ class Campaign:
     banners: list = None
 
 
+@dataclass
+class Segment:
+    name: str = None
+
+
 class Builder:
 
     @staticmethod
-    def create_campaign(name=None, link=None, slides_num=None, banners=None, url_ids=None, pic_ids_600=None, pic_ids_256=None):
+    def create_campaign(name=None, slides_num=None, slides_urls=None, banners=None, ids_600=None, id_256=None):
 
         if name is None:
             name = fake.lexify(text='????????? ?????????')
 
-        # if link is None:
-        #     link = fake.bothify(text='https://' + '????????????????/???????/####')
-
         if slides_num is None:
-            slides_num = randint(3, 6)
-            slides_num = 3
+            slides_num = len(slides_urls) - 1
 
         urls = {}
         for i in range(slides_num):
-            urls[f"url_slide_{i+1}"] = {"id": choice(url_ids)}
+            urls[f"url_slide_{i+1}"] = {"id": slides_urls[i]}
             if i == slides_num - 1:
-                urls[f"header_click"] = {"id": choice(url_ids)}
+                urls[f"header_click"] = {"id": slides_urls[-1]}
 
         textblocks = {}
         for i in range(slides_num):
@@ -50,10 +51,22 @@ class Builder:
 
         content = {}
         for i in range(slides_num):
-            content[f"image_600x600_slide_{i+1}"] = {"id": choice(pic_ids_600)}
+            content[f"image_600x600_slide_{i+1}"] = {"id": choice(ids_600)}
             if i == slides_num - 1:
-                content[f"icon_256x256"] = {"id": choice(pic_ids_256)}
+                content[f"icon_256x256"] = {"id": id_256}
 
         banners = [{"urls": urls, "textblocks": textblocks, "content": content, "name": ''}]
 
+        print('BANNERS', banners)
+
         return Campaign(name=name, banners=banners)
+
+    @staticmethod
+    def generate_url():
+        return 'https://' + fake.bothify(text='??????????????????.com/#####').lower()
+
+    @staticmethod
+    def create_segment(name=None):
+        if name is None:
+            name = fake.lexify(text='????????? ?????????')
+        return Segment(name=name)

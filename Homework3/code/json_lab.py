@@ -16,18 +16,26 @@ def extract_json(path):
     return data
 
 
-def configure_and_return_campaign_json(url_ids, pic_ids_600, pic_ids_256):
+def configure_and_return_campaign_json(slides_urls, ids_600, id_256):
     path = form_path('campaign.json')
     data = extract_json(path)
 
-    campaign = Builder.create_campaign(url_ids=url_ids, pic_ids_600=pic_ids_600, pic_ids_256=pic_ids_256)
+    campaign = Builder.create_campaign(slides_urls=slides_urls, ids_600=ids_600, id_256=id_256)
     data['name'] = campaign.name
     data['banners'] = campaign.banners
 
     return json.dumps(data)
 
 
+def generate_url():
+    return Builder.generate_url()
+
+
 def configure_and_return_segment_json():
     path = form_path('segment.json')
     data = extract_json(path)
+
+    segment = Builder.create_segment()
+    data['name'] = segment.name
+
     return json.dumps(data)
