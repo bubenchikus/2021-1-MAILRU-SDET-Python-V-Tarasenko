@@ -12,9 +12,3 @@ class ChatPage(BasePage):
     def enter_and_send_message(self, text):
         self.enter_message(text)
         self.click_for_android(self.locators.SEND_FIELD)
-
-    def swipe_and_click_population(self):
-        self.click_for_android(self.locators.POPULATION_REQUEST)
-
-
-

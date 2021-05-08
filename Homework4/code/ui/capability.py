@@ -8,6 +8,7 @@ def capability_android():
                   "appPackage": "ru.mail.search.electroscope",
                   "appActivity": "ru.mail.search.electroscope.ui.activity.AssistantActivity",
                   "app": os.path.abspath(os.path.join(os.path.dirname(__file__), '../app/Marussia_v1.39.1.apk')),
-                  "orientation": "PORTRAIT"
+                  "orientation": "PORTRAIT",
+                  "autoGrantPermissions": True
                   }
     return capability

@@ -1,5 +1,6 @@
 import allure
 import logging
+from selenium.webdriver.common.by import By
 
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -85,8 +86,17 @@ class BasePage:
         middle_y = (upper_y + lower_y) / 2
         action = TouchAction(self.driver)
         action. \
-            press(x=right_x, y=middle_y). \
+            press(x=right_x - 1, y=middle_y). \
             wait(ms=300). \
-            move_to(x=left_x, y=middle_y). \
+            move_to(x=left_x + 1, y=middle_y). \
             release(). \
             perform()
+
+    def find_by_text(self, text):
+        locator = (By.XPATH, self.locators.RESPONSE.format(text))
+        return locator
+
+    def swipe_and_click_by_text(self, text):
+        locator = (By.XPATH, self.locators.RESPONSE.format(text))
+        self.swipe_element_to_left(locator)
+        self.click_for_android(locator)

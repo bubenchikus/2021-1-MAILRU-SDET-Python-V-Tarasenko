@@ -59,12 +59,3 @@ def ui_report(driver, request, test_dir, config):
         screenshot_file = os.path.join(test_dir, 'failure.png')
         driver.get_screenshot_as_file(screenshot_file)
         allure.attach.file(screenshot_file, 'failure.png', attachment_type=allure.attachment_type.PNG)
-
-########################################################################################################################
-
-
-@pytest.fixture(scope='function', autouse=True)
-def auto_allow(main_page):
-    main_page.allow_access()
-    yield
-
