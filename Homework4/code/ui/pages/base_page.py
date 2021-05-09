@@ -100,3 +100,7 @@ class BasePage:
         locator = (By.XPATH, self.locators.RESPONSE.format(text))
         self.swipe_element_to_left(locator)
         self.click_for_android(locator)
+
+    def go_back(self, num):
+        for i in range(num):
+            self.driver.back()
