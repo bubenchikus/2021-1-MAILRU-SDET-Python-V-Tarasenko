@@ -6,6 +6,7 @@ analyzerdam==0.1.2
 analyzerstrategies==0.1.5
 apipkg==1.5
 appdirs==1.4.4
+Appium-Python-Client==1.1.0
 attrs==20.3.0
 Babel==2.9.1
 beautifulsoup4==4.9.3
