@@ -1,5 +1,6 @@
 from os import path
 import pandas as pd
+from urllib.parse import unquote
 
 
 REQUEST_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
@@ -20,7 +21,7 @@ for line in log_data:
     ip = columns[0]
     date = columns[3]
     method = columns[5]
-    url = columns[6]
+    url = unquote(columns[6])
     version = columns[7]
     status = columns[8]
     size = columns[9]

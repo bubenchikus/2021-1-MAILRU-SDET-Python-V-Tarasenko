@@ -7,7 +7,7 @@ Base = declarative_base()
 
 class NumberOfAllRequests(Base):
 
-    __tablename__ = 'table_number_of_all_requests'
+    __tablename__ = 'number_of_all_requests'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
@@ -18,7 +18,7 @@ class NumberOfAllRequests(Base):
 
 class NumberOfRequestsByType(Base):
 
-    __tablename__ = 'table_number_of_requests_by_type'
+    __tablename__ = 'number_of_requests_by_type'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
@@ -31,7 +31,7 @@ class NumberOfRequestsByType(Base):
 
 class Top10OfMostFrequentRequests(Base):
 
-    __tablename__ = 'table_top_10_of_most_frequent_requests'
+    __tablename__ = 'top_10_of_most_frequent_requests'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
@@ -44,7 +44,7 @@ class Top10OfMostFrequentRequests(Base):
 
 class Top5OfBiggestRequestsWith4XXStatus(Base):
 
-    __tablename__ = 'table_top_5_of_biggest_requests_with_4xx_status'
+    __tablename__ = 'top_5_of_biggest_requests_with_4xx_status'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
@@ -61,7 +61,7 @@ class Top5OfBiggestRequestsWith4XXStatus(Base):
 
 class Top5OfUsersByQuantityWith5XXStatus(Base):
 
-    __tablename__ = 'table_top_5_of_users_by_quantity_with_5xx_status'
+    __tablename__ = 'top_5_of_users_by_quantity_with_5xx_status'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):

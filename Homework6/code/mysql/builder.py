@@ -1,4 +1,5 @@
-from mysql.models import *
+from mysql.models import NumberOfAllRequests, NumberOfRequestsByType, Top10OfMostFrequentRequests, \
+    Top5OfBiggestRequestsWith4XXStatus, Top5OfUsersByQuantityWith5XXStatus
 from log import analyzer
 
 
@@ -14,11 +15,11 @@ class MySQLBuilder:
         )
 
         self.client.session.add(number_of_all_requests_row)
-        self.client.session.commit()
 
         return number_of_all_requests_row
 
     def create_number_of_all_requests(self):
+
         self.create_number_of_all_requests_row()
 
     def create_number_of_requests_by_type_row(self, key):
@@ -29,7 +30,6 @@ class MySQLBuilder:
         )
 
         self.client.session.add(number_of_requests_by_type_row)
-        self.client.session.commit()
 
         return number_of_requests_by_type_row
 
@@ -46,7 +46,6 @@ class MySQLBuilder:
         )
 
         self.client.session.add(top_10_of_most_frequent_requests_row)
-        self.client.session.commit()
 
         return top_10_of_most_frequent_requests_row
 
@@ -65,7 +64,6 @@ class MySQLBuilder:
         )
 
         self.client.session.add(top_5_of_biggest_requests_with_4xx_status_row)
-        self.client.session.commit()
 
         return top_5_of_biggest_requests_with_4xx_status_row
 
@@ -81,7 +79,6 @@ class MySQLBuilder:
             quantity=analyzer.top_5_of_users_by_quantity_with_5xx_status_result[key]
         )
         self.client.session.add(top_5_of_users_by_quantity_with_5xx_status)
-        self.client.session.commit()
 
         return top_5_of_users_by_quantity_with_5xx_status
 
@@ -89,3 +86,13 @@ class MySQLBuilder:
 
         for key in list(analyzer.top_5_of_users_by_quantity_with_5xx_status_result.keys()):
             self.create_top_5_of_users_by_quantity_with_5xx_status_row(key)
+
+    def create_all_tables(self):
+
+        self.create_number_of_all_requests()
+        self.create_number_of_requests_by_type()
+        self.create_top_10_of_most_frequent_requests()
+        self.create_top_5_of_biggest_requests_with_4xx_status()
+        self.create_top_5_of_users_by_quantity_with_5xx_status()
+
+        self.client.session.commit()
