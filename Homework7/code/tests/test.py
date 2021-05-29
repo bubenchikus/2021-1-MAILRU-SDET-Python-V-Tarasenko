@@ -1,47 +1,52 @@
 from client import Client
 from mock.flask_mock import USER_DATA
+from utils.builder import generate_human_data, return_human_data_without_name
 
 
 class TestClientToMock(Client):
 
     def test_add(self):
 
-        name = 'CustomName1'
+        human = generate_human_data()
 
-        resp = self.post_request(name)
-
-        assert USER_DATA.get(name) is not None
+        resp = self.post_request(human)
         assert '201 CREATED' in resp[0]
+
+        assert USER_DATA[human['name']]['surname'] == human['surname']
+        assert USER_DATA[human['name']]['age'] == human['age']
 
     def test_get(self):
 
-        name = 'CustomName2'
+        human = generate_human_data()
+        USER_DATA[human['name']] = return_human_data_without_name(human)
 
-        self.post_request(name)
-        resp = self.get_request(name)
+        resp = self.get_request(human['name'])
 
         assert '200 OK' in resp[0]
 
+        assert resp[6]['surname'] == human['surname']
+        assert resp[6]['age'] == human['age']
+
     def test_change(self):
 
-        name = 'CustomName3'
-        surname = 'CustomSurname'
-        age = 55
+        human = generate_human_data()
+        USER_DATA[human['name']] = return_human_data_without_name(human)
 
-        self.post_request(name)
-        self.put_request(name, surname, age)
-        resp = self.get_request(name)
+        new_data = generate_human_data(name=human['name'])
+        resp = self.put_request(new_data)
 
-        assert USER_DATA[name]['surname'] == surname and USER_DATA[name]['age'] == age
-        assert surname in resp[6] and str(age) in resp[6]
+        assert '200 OK' in resp[0]
+
+        assert USER_DATA[human['name']]['surname'] == new_data['surname']
+        assert USER_DATA[human['name']]['age'] == new_data['age']
 
     def test_delete(self):
 
-        name = 'CustomName4'
+        human = generate_human_data()
+        USER_DATA[human['name']] = return_human_data_without_name(human)
 
-        self.post_request(name)
-        self.delete_request(name)
-        resp = self.get_request(name)
+        resp = self.delete_request(human['name'])
 
-        assert USER_DATA.get(name) is None
-        assert '404 NOT FOUND' in resp[0]
+        assert '200 OK' in resp[0]
+
+        assert USER_DATA.get(human['name']) is None

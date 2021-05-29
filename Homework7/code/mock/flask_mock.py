@@ -2,6 +2,7 @@ import threading
 import settings
 import json
 
+
 from flask import Flask, jsonify, request
 
 
@@ -16,13 +17,16 @@ def create_user():
 
     user_name = json.loads(request.data)['name']
 
+    surname = json.loads(request.data)['surname']
+    age = json.loads(request.data)['age']
+
     if user_name not in USER_DATA:
         USER_DATA[user_name] = {}
         USER_DATA[user_name]['id'] = user_id_seq
-        USER_DATA[user_name]['surname'] = None
-        USER_DATA[user_name]['age'] = None
+        USER_DATA[user_name]['surname'] = surname
+        USER_DATA[user_name]['age'] = age
 
-        data = {'user_id': user_id_seq, 'surname': None, 'age': None}
+        data = {'user_id': user_id_seq, 'surname': surname, 'age': age}
         user_id_seq += 1
         return jsonify(data), 201
     else:
@@ -44,32 +48,23 @@ def get_user_data(name):
         return jsonify(f'User name {name} not found'), 404
 
 
-@app.route('/change_user_data/<name>', methods=['PUT'])
+@app.route('/change_user_data/<name>', methods=['PUT', 'DELETE'])
 def change_user_data(name):
 
-    surname = json.loads(request.data)['surname']
-    age = json.loads(request.data)['age']
-
     if USER_DATA.get(name):
+        if request.method == 'PUT':
+            USER_DATA[name]['id'] = json.loads(request.data)['id']
+            USER_DATA[name]['surname'] = json.loads(request.data)['surname']
+            USER_DATA[name]['age'] = json.loads(request.data)['age']
 
-        USER_DATA[name]['surname'] = surname
-        USER_DATA[name]['age'] = age
-
-        data = {'user_id': USER_DATA[name]['id'],
-                'surname': USER_DATA[name]['surname'],
-                'age': USER_DATA[name]['age']
-                }
+            data = {'user_id': USER_DATA[name]['id'],
+                    'surname': USER_DATA[name]['surname'],
+                    'age': USER_DATA[name]['age']
+                    }
+        else:
+            del USER_DATA[name]
+            data = None
         return jsonify(data), 200
-    else:
-        return jsonify(f'User name {name} not found'), 404
-
-
-@app.route('/delete_user_data/<name>', methods=['DELETE'])
-def delete_data(name):
-
-    if USER_DATA.get(name):
-        del USER_DATA[name]
-        return jsonify(f'Data for {name} was successfully deleted'), 204
     else:
         return jsonify(f'User name {name} not found'), 404
 
