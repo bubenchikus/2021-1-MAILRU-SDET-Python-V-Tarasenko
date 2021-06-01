@@ -1,7 +1,5 @@
 import pytest
 from base import BaseCase
-import os
-import re
 
 
 class TestMarussia(BaseCase):

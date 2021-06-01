@@ -25,8 +25,3 @@ change = {'default': ['Example Example Example', '+7-666-66-66', 'zapuskayte-gus
                             "!#$%&'*+-/=?^_`{|}~(),:;<>@[]"],
           'long': ['a'*1000, '6'*1000, 'a'*1000]
           }
-
-# goal, url, name, sex, age, geography, behavior,
-# interests, context, segments, schedule_of_display,
-# schedule_of_company, model, frmt, path1, path2
-campaign = {}

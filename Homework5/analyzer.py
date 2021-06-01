@@ -1,7 +1,6 @@
 from os import path
 import pandas as pd
-import logging
-import json
+
 
 REQUEST_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
 
